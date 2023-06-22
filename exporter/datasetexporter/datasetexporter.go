@@ -6,6 +6,7 @@ package datasetexporter // import "github.com/open-telemetry/opentelemetry-colle
 import (
 	"context"
 	"fmt"
+	"go.opentelemetry.io/collector/exporter"
 	"net/http"
 	"reflect"
 	"strconv"
@@ -26,7 +27,8 @@ type DatasetExporter struct {
 	spanTracker *spanTracker
 }
 
-func newDatasetExporter(entity string, config *Config, logger *zap.Logger) (*DatasetExporter, error) {
+func newDatasetExporter(entity string, config *Config, set exporter.CreateSettings) (*DatasetExporter, error) {
+	logger := set.Logger
 	logger.Info("Creating new DataSetExporter",
 		zap.String("config", config.String()),
 		zap.String("entity", entity),
@@ -38,11 +40,17 @@ func newDatasetExporter(entity string, config *Config, logger *zap.Logger) (*Dat
 			config.String(), err,
 		)
 	}
-
+	userAgent := fmt.Sprintf(
+		"%s;%s;%s",
+		"OtelCollector",
+		set.BuildInfo.Version,
+		entity,
+	)
 	client, err := client.NewClient(
 		exporterCfg.datasetConfig,
 		&http.Client{Timeout: time.Second * 60},
 		logger,
+		&userAgent,
 	)
 	if err != nil {
 		logger.Error("Cannot create DataSetClient: ", zap.Error(err))
