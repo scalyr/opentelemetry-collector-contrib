@@ -1149,3 +1149,5 @@ replace github.com/open-telemetry/opentelemetry-collector-contrib/pkg/translator
 replace github.com/open-telemetry/opentelemetry-collector-contrib/pkg/translator/skywalking => ../../pkg/translator/skywalking
 
 replace github.com/open-telemetry/opentelemetry-collector-contrib/internal/collectd => ../../internal/collectd
+
+replace github.com/scalyr/dataset-go => ../../../dataset-go

@@ -1133,3 +1133,6 @@ replace github.com/open-telemetry/opentelemetry-collector-contrib/receiver/azure
 replace github.com/open-telemetry/opentelemetry-collector-contrib/pkg/golden => ./pkg/golden
 
 replace github.com/open-telemetry/opentelemetry-collector-contrib/internal/collectd => ./internal/collectd
+
+
+replace github.com/scalyr/dataset-go => ../dataset-go/

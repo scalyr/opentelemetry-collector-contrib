@@ -48,11 +48,14 @@ func newDatasetExporter(entity string, config *Config, set exporter.CreateSettin
 		set.BuildInfo.Version,
 		entity,
 	)
+
+	meter := set.MeterProvider.Meter("datasetexporter")
 	client, err := client.NewClient(
 		exporterCfg.datasetConfig,
 		&http.Client{Timeout: time.Second * 60},
 		logger,
 		&userAgent,
+		&meter,
 	)
 	if err != nil {
 		logger.Error("Cannot create DataSetClient: ", zap.Error(err))
